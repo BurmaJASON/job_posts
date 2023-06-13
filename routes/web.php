@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +24,5 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('category/data_table', [CategoryController::class, 'ssdataTable'])->name('category.ssdt');
+Route::put('category/restore/{category}', [CategoryController::class, 'restore'])->name('category.restore');
 Route::resource('category', CategoryController::class)->except('show');

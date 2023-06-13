@@ -77,10 +77,32 @@
                             method: "DELETE",
                             url: `/category/${id}`
                         }).done(function(res) {
-                            console.log('aung p')
                             table.ajax.reload();
                         })
                     }
+                })
+            })
+
+            $(document).on('click', '.restore-btn', function(e, id) {
+                e.preventDefault();
+                var id = $(this).data(id).id;
+
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Category has been restored',
+                    showConfirmButton: false,
+                    timer: 2000
+                }).then((result) => {
+                    $.ajax({
+                        method: "PUT",
+                        url: `/category/restore/${id}`,
+                        data: {
+                            _method: "PUT" 
+                        }
+                    }).done((res) => {
+                        table.ajax.reload();
+                    })
                 })
             })
         })

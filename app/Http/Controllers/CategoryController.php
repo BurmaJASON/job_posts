@@ -28,6 +28,7 @@ class CategoryController extends Controller
                 $edit = '<a href="' . route('category.edit', $value->id) . '" class="btn btn-secondary btn-sm">Edit</a>';
                 $del = '<a href="#" class="btn btn-danger text-white btn-sm del-btn ms-2" data-id="' . $value->id . '">Delete</a>';
 
+
                 if ($value->deleted_at) {
                     $del = '<a href="#" class="btn btn-success text-white btn-sm restore-btn ms-2" data-id="' . $value->id . '">Restore</a>';
                 } else {
@@ -100,5 +101,13 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         return $category->delete();
+    }
+
+
+    // soft deletes restore method
+    public function restore($id)
+    {
+        $category = Category::withTrashed()->findOrFail($id);
+        return $category->restore();
     }
 }
