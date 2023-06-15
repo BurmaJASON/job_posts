@@ -1,15 +1,20 @@
 @extends('layouts.app')
 
 @section('title')
-    Category Lists
+    Job Lists
 @endsection
 
 @section('content')
     <div class="row">
         <div class="col-12">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header">
-                    Category Lists
+                    Job Lists
                 </div>
 
                 <div class="card-body">
@@ -18,8 +23,12 @@
                             <tr>
                                 <th>Id</th>
                                 <th>Name</th>
+                                <th>Salary</th>
+                                <th>Requirement</th>
+                                <th>Category</th>
+                                <th>Owner</th>
                                 <th>Action</th>
-                                <th>Created_at</th>
+                                <th>Created At</th>
                             </tr>
                         </thead>
 
@@ -34,7 +43,7 @@
     <script>
         $(document).ready(function() {
             var table = $('#dataTable').DataTable({
-                ajax: '{{ route('category.ssdt') }}',
+                ajax: '{{ route('post.queryTable') }}',
                 columns: [{
                         data: 'id',
                         name: 'id'
@@ -44,20 +53,35 @@
                         name: 'name'
                     },
                     {
+                        data: 'salary',
+                        name: 'salary'
+                    },
+                    {
+                        data: 'requirements',
+                        name: 'requirements'
+                    },
+                    {
+                        data: 'category_id',
+                        name: 'category_id'
+                    },
+                    {
+                        data: 'user_id',
+                        name: 'user_id'
+                    },
+                    {
                         data: 'action',
                         name: 'action'
                     },
                     {
                         data: 'created',
                         name: 'created'
-                    }
+                    },
                 ]
             })
 
             $(document).on('click', '.del-btn', function(e, id) {
                 e.preventDefault()
                 var id = $(this).data(id).id;
-
                 Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -70,12 +94,12 @@
                     if (result.isConfirmed) {
                         Swal.fire(
                             'Deleted!',
-                            'Your file has been deleted.',
+                            'Your post has been deleted.',
                             'success'
                         )
                         $.ajax({
                             method: "DELETE",
-                            url: `/category/${id}`
+                            url: `/post/${id}`
                         }).done(function(res) {
                             table.ajax.reload();
                         })
@@ -83,25 +107,6 @@
                 })
             })
 
-            $(document).on('click', '.restore-btn', function(e, id) {
-                e.preventDefault();
-                var id = $(this).data(id).id;
-
-                Swal.fire({
-                    position: 'center',
-                    icon: 'success',
-                    title: 'Category has been restored',
-                    showConfirmButton: false,
-                    timer: 2000
-                }).then((result) => {
-                    $.ajax({
-                        method: "PUT",
-                        url: `/category/restore/${id}`,
-                    }).done((res) => {
-                        table.ajax.reload();
-                    })
-                })
-            })
         })
     </script>
 @endsection

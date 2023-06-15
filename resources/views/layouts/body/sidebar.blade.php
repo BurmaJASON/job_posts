@@ -27,6 +27,17 @@
                 </ul>
             </li>
 
+            <li class="dropdown {{ Request::is('auto-sysem') ? 'active' : '' }} ">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
+                    <i class="fas fa-folder-open"></i>
+                    <span>Job Posts</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <x-menu-item link="{{ route('post.index') }}">Job Lists</x-menu-item>
+                    <x-menu-item link="{{ route('post.create') }}">Job Create</x-menu-item>
+                </ul>
+            </li>
+
             {{-- <li
                 class="dropdown {{ Request::is('enduser') ? 'active' : '' }}  {{ Request::is('enduser/create') ? 'active' : '' }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
