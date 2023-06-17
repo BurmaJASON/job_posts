@@ -8,6 +8,7 @@ use App\Models\Category;
 use Yajra\DataTables\DataTables;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Services\PostService;
 
 class PostController extends Controller
 {
@@ -23,7 +24,7 @@ class PostController extends Controller
 
     public function queryTable()
     {
-        $lists = Post::latest()->get();
+        $lists = Post::with(['category', 'user'])->latest()->get();
         return DataTables::of($lists)
             ->addColumn('action', function ($value) {
                 $show = '<a href="' . route('post.show', $value->id) . '" class="btn btn-primary btn-sm">Show</a>';
@@ -38,6 +39,8 @@ class PostController extends Controller
                 static $counter = 1;
                 return $counter++;
             })
+            ->editColumn('category',fn($value) => $value->category->name)
+            ->editColumn('owner',fn($value) => $value->user->name)
             ->editColumn('created', fn ($value) => Carbon::parse($value->created_at)->format('d M Y'))
             ->make(true);
     }
@@ -59,19 +62,9 @@ class PostController extends Controller
      * @param  \App\Http\Requests\StorePostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request, PostService $postService)
     {
-        Post::create([
-            'name' => $request->name,
-            'salary' => $request->salary,
-            'category_id' => $request->category_id,
-            'requirements' => $request->requirements,
-            'job_desc' => $request->job_desc,
-            'info' => $request->info,
-            'user_id' => auth()->user()->id
-        ]);
-
-        return redirect()->route('post.index')->with('success', 'Successfully Created');
+        return $postService->createPost($request);
     }
 
     /**
@@ -106,17 +99,9 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post, PostService $postService)
     {
-        $post->update([
-            'name' => $request->name,
-            "salary" => $request->salary,
-            "category_id" => $request->category_id,
-            "requirements" => $request->requirements,
-            'job_desc' => $request->job_desc,
-            "info" => $request->info
-        ]);
-        return redirect()->route('post.index')->with('success', 'Successfully Updated');
+        return $postService->updatePost($request, $post);
     }
 
     /**

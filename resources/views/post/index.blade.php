@@ -61,12 +61,12 @@
                         name: 'requirements'
                     },
                     {
-                        data: 'category_id',
-                        name: 'category_id'
+                        data: 'category',
+                        name: 'category'
                     },
                     {
-                        data: 'user_id',
-                        name: 'user_id'
+                        data: 'owner',
+                        name: 'owner'
                     },
                     {
                         data: 'action',
