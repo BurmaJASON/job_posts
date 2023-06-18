@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Category;
-use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Services\CategoryService;
 
 class CategoryController extends Controller
 {
@@ -20,24 +20,9 @@ class CategoryController extends Controller
         return view('category.index');
     }
 
-    public function ssdataTable()
+    public function ssdataTable(CategoryService $categoryService)
     {
-        $lists = Category::withTrashed()->get();
-        return DataTables::of($lists)
-            ->addColumn('action', function ($value) {
-                $edit = '<a href="' . route('category.edit', $value->id) . '" class="btn btn-secondary btn-sm">Edit</a>';
-                $del = '<a href="#" class="btn btn-danger text-white btn-sm del-btn ms-2" data-id="' . $value->id . '">Delete</a>';
-
-
-                if ($value->deleted_at) {
-                    $del = '<a href="#" class="btn btn-success text-white btn-sm restore-btn ms-2" data-id="' . $value->id . '">Restore</a>';
-                } else {
-                    $del = '<a href="#" class="btn btn-danger text-white btn-sm del-btn ms-2" data-id="' . $value->id . '">Delete</a>';
-                }
-                return '<span>' . $edit . $del . '</span>';
-            })
-            ->editColumn('created', fn ($value) => Carbon::parse($value->created_at)->format('d M Y'))
-            ->make(true);
+        return $categoryService->ssdataTable();
     }
 
     /**
@@ -56,13 +41,9 @@ class CategoryController extends Controller
      * @param  \App\Http\Requests\StoreCategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(StoreCategoryRequest $request, CategoryService $categoryService)
     {
-        Category::create([
-            'name' => $request->name
-        ]);
-
-        return redirect()->route('category.index');
+        return $categoryService->createCategory($request);
     }
 
     /**
@@ -83,13 +64,9 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category, CategoryService $categoryService)
     {
-        $category->update([
-            'name' => $request->name
-        ]);
-
-        return redirect()->route('category.index');
+        return $categoryService->updateCategory($request,$category);
     }
 
     /**
