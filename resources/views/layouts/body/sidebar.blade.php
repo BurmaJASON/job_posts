@@ -30,7 +30,7 @@
 
             <li class="dropdown {{ Request::is('auto-sysem') ? 'active' : '' }} ">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
-                    <i class="fas fa-random"></i>
+                    <i class="fas fa-inbox"></i>
                     <span>Category Managment</span>
                 </a>
                 <ul class="dropdown-menu">
@@ -40,7 +40,7 @@
             </li>
 
 
-            {{-- <li class="dropdown {{ Request::is('auto-sysem') ? 'active' : '' }} ">
+            <li class="dropdown {{ Request::is('auto-sysem') ? 'active' : '' }} ">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                     <i class="fas fa-random"></i>
                     <span>Tag Managment</span>
@@ -49,7 +49,7 @@
                     <x-menu-item link="{{ route('tag.index') }}">Lists</x-menu-item>
                     <x-menu-item link="{{ route('tag.create') }}">Create</x-menu-item>
                 </ul>
-            </li> --}}
+            </li>
 
 
             <li class="dropdown {{ Request::is('auto-sysem') ? 'active' : '' }} ">
