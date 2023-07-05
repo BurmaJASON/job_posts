@@ -16,6 +16,18 @@
                 </ul>
             </li>
 
+
+            <li class="dropdown {{ Request::is('auto-sysem') ? 'active' : '' }} ">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
+                    <i class="fas fa-users"></i>
+                    <span>User Managment</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <x-menu-item link="{{ route('user.index') }}">Lists</x-menu-item>
+                    <x-menu-item link="{{ route('user.create') }}">Create</x-menu-item>
+                </ul>
+            </li>
+
             <li class="dropdown {{ Request::is('auto-sysem') ? 'active' : '' }} ">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                     <i class="fas fa-random"></i>
@@ -27,6 +39,19 @@
                 </ul>
             </li>
 
+
+            {{-- <li class="dropdown {{ Request::is('auto-sysem') ? 'active' : '' }} ">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
+                    <i class="fas fa-random"></i>
+                    <span>Tag Managment</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <x-menu-item link="{{ route('tag.index') }}">Lists</x-menu-item>
+                    <x-menu-item link="{{ route('tag.create') }}">Create</x-menu-item>
+                </ul>
+            </li> --}}
+
+
             <li class="dropdown {{ Request::is('auto-sysem') ? 'active' : '' }} ">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown">
                     <i class="fas fa-folder-open"></i>
@@ -37,6 +62,9 @@
                     <x-menu-item link="{{ route('post.create') }}">Job Create</x-menu-item>
                 </ul>
             </li>
+
+
+
 
             {{-- <li
                 class="dropdown {{ Request::is('enduser') ? 'active' : '' }}  {{ Request::is('enduser/create') ? 'active' : '' }}">

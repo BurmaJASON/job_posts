@@ -18,12 +18,13 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // User::create([
-        //     'name' => 'Seo Jun Min',
-        //     'email' => 'admin@gmail.com',
-        //     'password' => Hash::make('password'),
-        //     'gender' => 'male'
-        // ]);
+        User::create([
+            'name' => 'ADMIN',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('password'),
+            'gender' => 'male',
+            'role' => 1
+        ]);
 
         $cats = ['Web Developer', 'Infra', 'Mobile'];
         foreach ($cats as $cat) {

@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +37,11 @@ Route::get('post/data_query',[PostController::class,'queryTable'])->name('post.q
 Route::resource('post', PostController::class);
 
 
+//users
+Route::get('user/data_query',[UserController::class, 'queryTable'])->name('user.queryTable');
+Route::resource('user',UserController::class);
+
+//tags
+Route::get('tag/data_query',[TagController::class, 'queryTable'])->name('tag.queryTable');
+Route::resource('tag',TagController::class);
 
