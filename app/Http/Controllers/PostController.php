@@ -22,27 +22,9 @@ class PostController extends Controller
         return view('post.index');
     }
 
-    public function queryTable()
+    public function queryTable(PostService $postService)
     {
-        $lists = Post::with(['category', 'user'])->latest()->get();
-        return DataTables::of($lists)
-            ->addColumn('action', function ($value) {
-                $show = '<a href="' . route('post.show', $value->id) . '" class="btn btn-primary btn-sm">Show</a>';
-
-                $edit = '<a href="' . route('post.edit', $value->id) . '" class="btn btn-secondary btn-sm ml-2">Edit</a>';
-
-                $del = '<a href="#" class="btn btn-danger text-white btn-sm del-btn ms-2" data-id="' . $value->id . '">Delete</a>';
-
-               return '<span>' . $show . $edit . $del . '</span>';
-            })
-            ->editColumn('id', function () {
-                static $counter = 1;
-                return $counter++;
-            })
-            ->editColumn('category',fn($value) => $value->category->name)
-            ->editColumn('owner',fn($value) => $value->user->name)
-            ->editColumn('created', fn ($value) => Carbon::parse($value->created_at)->format('d M Y'))
-            ->make(true);
+        return $postService->tableList();
     }
 
     /**
