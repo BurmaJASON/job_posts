@@ -10,7 +10,7 @@ use Yajra\DataTables\Facades\DataTables;
 class PostService
 {
     public function createPost($request) {
-        Post::create([
+        $post = Post::create([
             'name' => $request->name,
             'salary' => $request->salary,
             'category_id' => $request->category_id,
@@ -19,6 +19,8 @@ class PostService
             'info' => $request->info,
             'user_id' => auth()->user()->id
         ]);
+
+        $post->tags()->sync($request->tags);
 
         return redirect()->route('post.index')->with('success', 'Successfully Created');
     }
@@ -55,6 +57,7 @@ class PostService
             'job_desc' => $request->job_desc,
             "info" => $request->info
         ]);
+        $post->tags()->sync($request->tags);
         return redirect()->route('post.index')->with('success', 'Successfully Updated');
     }
 }
